@@ -1,0 +1,133 @@
+// ============================================================================
+// Azure Local (HCI) Azure Resource Graph (ARG) Assessment Queries
+// Use these Kusto queries in Azure Resource Graph Explorer, Azure CLI,
+// or the Azure Review Checklist Excel Spreadsheet (Import ARG feature).
+// ============================================================================
+
+// ----------------------------------------------------------------------------
+// 1. Azure Local Clusters Inventory, Status, and Sync Health
+// Recommendation IDs: 01.01.01, 04.01.08, 09.01.02
+// ----------------------------------------------------------------------------
+resources
+| where type =~ 'microsoft.azurestackhci/clusters'
+| extend status = tostring(properties.status)
+| extend reportedVersion = tostring(properties.reportedProperties.clusterVersion)
+| extend nodeCount = toint(properties.reportedProperties.nodesCount)
+| extend lastSyncTimestamp = todatetime(properties.lastSyncTimestamp)
+| extend registrationTimestamp = todatetime(properties.registrationTimestamp)
+| extend daysSinceLastSync = datetime_diff('day', now(), lastSyncTimestamp)
+| extend isSyncHealthy = iff(daysSinceLastSync <= 30, "Healthy", "Warning - Exceeds 30 Days")
+| project id, name, resourceGroup, subscriptionId, location, status, reportedVersion, nodeCount, daysSinceLastSync, isSyncHealthy, tags
+| order by name asc
+
+// ----------------------------------------------------------------------------
+// 2. Azure Arc Resource Bridge (ARB) Appliance Status
+// Recommendation ID: 04.01.01
+// ----------------------------------------------------------------------------
+resources
+| where type =~ 'microsoft.resourceconnector/appliances'
+| extend status = tostring(properties.status)
+| extend version = tostring(properties.version)
+| extend distro = tostring(properties.distro)
+| project id, name, resourceGroup, subscriptionId, location, status, version, distro
+| order by name asc
+
+// ----------------------------------------------------------------------------
+// 3. Custom Locations Configured for Azure Local
+// Recommendation ID: 04.01.02
+// ----------------------------------------------------------------------------
+resources
+| where type =~ 'microsoft.extendedlocation/customlocations'
+| extend hostResourceId = tostring(properties.hostResourceId)
+| extend namespace = tostring(properties.namespace)
+| project id, name, resourceGroup, subscriptionId, location, hostResourceId, namespace
+| order by name asc
+
+// ----------------------------------------------------------------------------
+// 4. Azure Local Edge Devices and Physical Node Hardware Details
+// Recommendation IDs: 01.01.02, 01.01.04
+// ----------------------------------------------------------------------------
+resources
+| where type =~ 'microsoft.azurestackhci/edgedevices'
+| extend manufacturer = tostring(properties.deviceConfiguration.deviceMetadata.model)
+| extend serialNumber = tostring(properties.deviceConfiguration.deviceMetadata.serialNumber)
+| extend nodeName = tostring(properties.deviceConfiguration.nicDetails[0].adapterName)
+| project id, name, resourceGroup, subscriptionId, manufacturer, serialNumber
+| order by name asc
+
+// ----------------------------------------------------------------------------
+// 5. Azure Arc VM Instances on Azure Local
+// Recommendation IDs: 04.01.03, 04.01.04, 09.01.03
+// ----------------------------------------------------------------------------
+resources
+| where type =~ 'microsoft.azurestackhci/virtualmachineinstances'
+| extend powerState = tostring(properties.status.powerState)
+| extend provisioningState = tostring(properties.provisioningState)
+| extend vCpuCount = toint(properties.hardwareProfile.processors)
+| extend memoryMb = toint(properties.hardwareProfile.memoryMB)
+| extend osType = tostring(properties.osProfile.osType)
+| project id, name, resourceGroup, subscriptionId, location, powerState, provisioningState, vCpuCount, memoryMb, osType
+| order by name asc
+
+// ----------------------------------------------------------------------------
+// 6. Logical Networks and Storage Containers on Azure Local
+// Recommendation ID: 04.01.03
+// ----------------------------------------------------------------------------
+resources
+| where type in~ ('microsoft.azurestackhci/logicalnetworks', 'microsoft.azurestackhci/storagecontainers')
+| extend provisioningState = tostring(properties.provisioningState)
+| extend path = tostring(properties.path)
+| project id, name, type, resourceGroup, subscriptionId, location, provisioningState, path
+| order by type asc, name asc
+
+// ----------------------------------------------------------------------------
+// 7. Azure Local Lifecycle Manager / Update Runs
+// Recommendation ID: 06.01.01
+// ----------------------------------------------------------------------------
+resources
+| where type =~ 'microsoft.azurestackhci/updateruns'
+| extend state = tostring(properties.state)
+| extend startTime = todatetime(properties.timeStarted)
+| extend endTime = todatetime(properties.endTimeUtc)
+| extend durationMinutes = datetime_diff('minute', endTime, startTime)
+| project id, name, resourceGroup, subscriptionId, state, startTime, endTime, durationMinutes
+| order by startTime desc
+
+// ----------------------------------------------------------------------------
+// 8. Azure Arc Host Nodes (Hybrid Compute Machines)
+// Recommendation IDs: 04.01.08, 05.01.08, 06.01.04
+// ----------------------------------------------------------------------------
+resources
+| where type =~ 'microsoft.hybridcompute/machines'
+| extend osName = tostring(properties.osName)
+| extend osVersion = tostring(properties.osVersion)
+| extend agentVersion = tostring(properties.agentVersion)
+| extend status = tostring(properties.status)
+| extend mssqlDiscovered = tostring(properties.mssqlDiscovered)
+| project id, name, resourceGroup, subscriptionId, location, status, osName, osVersion, agentVersion
+| order by name asc
+
+// ----------------------------------------------------------------------------
+// 9. Host Node Extensions (Azure Monitor Agent, Defender, Telemetry)
+// Recommendation IDs: 05.01.08, 06.01.04
+// ----------------------------------------------------------------------------
+resources
+| where type =~ 'microsoft.hybridcompute/machines/extensions'
+| extend extensionType = tostring(properties.type)
+| extend provisioningState = tostring(properties.provisioningState)
+| extend autoUpgradeMinorVersion = tobool(properties.autoUpgradeMinorVersion)
+| project id, name, resourceGroup, subscriptionId, extensionType, provisioningState, autoUpgradeMinorVersion
+| order by extensionType asc
+
+// ----------------------------------------------------------------------------
+// 10. Arc-Enabled Kubernetes (AKS on Azure Local) Clusters
+// Recommendation ID: 07.01.01
+// ----------------------------------------------------------------------------
+resources
+| where type =~ 'microsoft.kubernetes/connectedclusters'
+| extend kubernetesVersion = tostring(properties.kubernetesVersion)
+| extend agentVersion = tostring(properties.agentVersion)
+| extend totalNodeCount = toint(properties.totalNodeCount)
+| extend connectivityStatus = tostring(properties.connectivityStatus)
+| project id, name, resourceGroup, subscriptionId, location, kubernetesVersion, agentVersion, totalNodeCount, connectivityStatus
+| order by name asc

@@ -1,0 +1,1118 @@
+{
+    "items": [
+        {
+            "id": "01.01.01",
+            "category": "Hardware and Architecture",
+            "subcategory": "Hardware Validation",
+            "text": "Cluster nodes are built on certified Azure Local Premier Solutions or Integrated Systems",
+            "description": "All physical servers must be validated and certified on the official Microsoft Azure Local Catalog (Integrated Systems or Premier Solutions from OEM partners like Dell, Lenovo, HPE) to guarantee driver/firmware compatibility and end-to-end support.",
+            "severity": "High",
+            "waf": "Reliability",
+            "service": "Azure Local",
+            "guid": "9f519499-5820-4060-88fe-cab4538c9dd0",
+            "link": "https://learn.microsoft.com/azure/azure-local/concepts/hardware-solutions",
+            "graph": "resources | where type =~ 'microsoft.azurestackhci/clusters' | project id, name, resourceGroup, subscriptionId, properties.reportedProperties.clusterVersion"
+        },
+        {
+            "id": "01.01.02",
+            "category": "Hardware and Architecture",
+            "subcategory": "Hardware Sizing",
+            "text": "Cluster nodes have identical CPU, memory, and PCIe device configurations",
+            "description": "Ensure hardware symmetry across all cluster nodes. Asymmetrical configurations (differing processor generations, varying memory capacities, or mismatched PCIe NIC slots) cause uneven resource scheduling, unpredictable failover behavior, and potential cluster instabilities.",
+            "severity": "High",
+            "waf": "Reliability",
+            "service": "Azure Local",
+            "guid": "f7c015e0-7d97-4283-b006-567afeb2b5ca",
+            "link": "https://learn.microsoft.com/azure/azure-local/concepts/system-requirements",
+            "graph": "resources | where type =~ 'microsoft.azurestackhci/edgedevices' | project id, name, properties"
+        },
+        {
+            "id": "01.01.03",
+            "category": "Hardware and Architecture",
+            "subcategory": "Boot Architecture",
+            "text": "Host operating systems use dedicated boot storage controllers and mirrored drives",
+            "description": "Operating system drives must use a dedicated controller (such as Dell BOSS-N1, Lenovo M.2 RAID, or SATADOM in RAID-1) physically isolated from the Storage Spaces Direct storage bus. OS drives must never reside on the same HBA/controller managing data pool drives.",
+            "severity": "High",
+            "waf": "Reliability",
+            "service": "Azure Local",
+            "guid": "13c12e2a-c938-4dd1-9223-507d5e17f9c5",
+            "link": "https://learn.microsoft.com/azure/azure-local/concepts/system-requirements#storage-requirements"
+        },
+        {
+            "id": "01.01.04",
+            "category": "Hardware and Architecture",
+            "subcategory": "Hardware Security",
+            "text": "TPM 2.0 and UEFI Secure Boot are enabled on all physical nodes",
+            "description": "Verify in system BIOS/UEFI that TPM 2.0 (Trusted Platform Module) and Secure Boot are enabled and operational across all nodes to support Secured-core server capabilities, BitLocker volume encryption, and measured boot attestation.",
+            "severity": "High",
+            "waf": "Security",
+            "service": "Azure Local",
+            "guid": "b73a9032-4e41-477c-a496-b2586df9a562",
+            "link": "https://learn.microsoft.com/azure/azure-local/concepts/secured-core-server"
+        },
+        {
+            "id": "01.01.05",
+            "category": "Hardware and Architecture",
+            "subcategory": "Hardware Security",
+            "text": "Virtualization-Based Security (VBS) and Hypervisor-Protected Code Integrity (HVCI) are active",
+            "description": "Ensure hardware virtualization extensions (VT-x / AMD-V, SLAT / EPT / NPT, and Intel VT-d / AMD-Vi IOMMU) are enabled in BIOS to support Virtualization-Based Security (VBS) and hypervisor-protected code integrity (HVCI), forming the foundation of Secured-core server.",
+            "severity": "High",
+            "waf": "Security",
+            "service": "Azure Local",
+            "guid": "04c23db7-28d8-4663-863a-bb9123841ec4",
+            "link": "https://learn.microsoft.com/azure/azure-local/concepts/security-features"
+        },
+        {
+            "id": "01.01.06",
+            "category": "Hardware and Architecture",
+            "subcategory": "Out-of-Band Management",
+            "text": "Baseboard Management Controllers (BMC / IPMI) are isolated on a dedicated secure network",
+            "description": "All node BMC interfaces (iDRAC, iLO, XCC) must be configured with static IP addresses on a dedicated out-of-band management VLAN. Default manufacturer passwords must be changed, TLS 1.3/1.2 enforced, and access restricted via management firewalls.",
+            "severity": "High",
+            "waf": "Security",
+            "service": "Azure Local",
+            "guid": "e5d0f19c-8f43-4f96-85dc-728b742e970a",
+            "link": "https://learn.microsoft.com/azure/azure-local/deploy/deployment-network-reference"
+        },
+        {
+            "id": "01.01.07",
+            "category": "Hardware and Architecture",
+            "subcategory": "Cluster Quorum",
+            "text": "Cluster Quorum witness is configured using Azure Cloud Witness or a dedicated third-site File Share Witness",
+            "description": "Every cluster must have an active quorum witness configured with Dynamic Quorum. For clusters with Internet access, use Azure Cloud Witness backed by an Azure Storage Account (TLS 1.2). For air-gapped or localized environments, configure a File Share Witness located outside the cluster's physical rack/fault domain.",
+            "severity": "High",
+            "waf": "Reliability",
+            "service": "Azure Local",
+            "guid": "a4d31e9c-487b-402c-88ae-4f937402636a",
+            "link": "https://learn.microsoft.com/azure/azure-local/manage/witness"
+        },
+        {
+            "id": "01.01.08",
+            "category": "Hardware and Architecture",
+            "subcategory": "Capacity Planning",
+            "text": "Host memory and CPU capacity accounts for N+1 node failover without performance degradation",
+            "description": "Cluster capacity planning must ensure that in an N-node cluster, the total memory and vCPU allocated to workloads does not exceed the remaining capacity of (N-1) nodes. A reserve of at least 32GB RAM per node should be dedicated exclusively to host OS and Storage Spaces Direct cache operations.",
+            "severity": "High",
+            "waf": "Reliability",
+            "service": "Azure Local",
+            "guid": "7f8b91a2-6321-4f18-bb92-48a0f91753c1",
+            "link": "https://learn.microsoft.com/azure/azure-local/concepts/plan-capacity"
+        },
+        {
+            "id": "01.01.09",
+            "category": "Hardware and Architecture",
+            "subcategory": "Cluster Validation",
+            "text": "Cluster Validation tests have been executed with zero critical errors prior to production use",
+            "description": "Execute failover cluster validation ('Test-Cluster' or the Azure Local Deployment Wizard verification) across all components (Inventory, Network, Storage Spaces Direct, System Configuration) and confirm all tests pass cleanly without errors before placing production workloads.",
+            "severity": "High",
+            "waf": "Reliability",
+            "service": "Azure Local",
+            "guid": "9b128543-3921-46ab-84cf-c18749f123bc",
+            "link": "https://learn.microsoft.com/azure/azure-local/deploy/validate"
+        },
+        {
+            "id": "01.01.10",
+            "category": "Hardware and Architecture",
+            "subcategory": "Power Redundancy",
+            "text": "Dual power supplies are connected to independent Power Distribution Units (PDUs / UPS)",
+            "description": "All cluster nodes must be equipped with redundant power supply units (PSUs) plugged into separate physical power feeds or independent uninterruptible power supplies (UPS / A+B feeds) to protect against facility power loss or breaker trips.",
+            "severity": "High",
+            "waf": "Reliability",
+            "service": "Azure Local",
+            "guid": "ecf583e2-d3a4-421f-8243-be90e7ee8cd0",
+            "link": "https://learn.microsoft.com/azure/azure-local/concepts/system-requirements"
+        },
+        {
+            "id": "01.01.11",
+            "category": "Hardware and Architecture",
+            "subcategory": "Virtual Machine Architecture",
+            "text": "Generation 2 Virtual Machines with Virtual TPM (vTPM) and Secure Boot are deployed by default",
+            "description": "Standardize all guest workloads on Generation 2 Hyper-V virtual machines. Gen 2 VMs provide UEFI boot, accelerated synthetic SCSI controllers, support for virtual TPM (vTPM), guest BitLocker, and eliminate legacy BIOS device emulation overhead.",
+            "severity": "Medium",
+            "waf": "Security",
+            "service": "Azure Local",
+            "guid": "1f8286af-67f2-4b1c-87bd-44a4a68a2256",
+            "link": "https://learn.microsoft.com/windows-server/virtualization/hyper-v/plan/should-i-create-a-generation-1-or-2-virtual-machine-in-hyper-v"
+        },
+        {
+            "id": "02.01.01",
+            "category": "Storage and S2D",
+            "subcategory": "Physical Storage",
+            "text": "All planned storage pools use direct-attached NVMe, SSD, or SAS drives in pass-through (IT) mode",
+            "description": "Storage Spaces Direct requires raw direct-attached storage (SATA, SAS, or NVMe). Drives must be exposed directly to the operating system via a pure Host Bus Adapter (HBA) running in IT (Initiator Target) mode. Hardware RAID controllers or RAID caching must not be used on storage pool disks.",
+            "severity": "High",
+            "waf": "Performance",
+            "service": "Storage Spaces Direct",
+            "guid": "4c3b90a1-7782-4ef1-9871-29471f83c011",
+            "link": "https://learn.microsoft.com/windows-server/storage/storage-spaces/storage-spaces-direct-hardware-requirements"
+        },
+        {
+            "id": "02.01.02",
+            "category": "Storage and S2D",
+            "subcategory": "Physical Storage",
+            "text": "Disks are symmetrical in model, capacity, and firmware across all nodes",
+            "description": "All nodes in the cluster must possess an identical drive layout (same quantity, type, capacity, and firmware per tier). Drive capacity imbalances across nodes lead to uneven pool utilization and degraded write performance.",
+            "severity": "Medium",
+            "waf": "Performance",
+            "service": "Storage Spaces Direct",
+            "guid": "f785b143-2c1e-4466-9baa-dde8ba4c7aaa",
+            "link": "https://learn.microsoft.com/azure/azure-local/concepts/drive-symmetry-considerations"
+        },
+        {
+            "id": "02.01.03",
+            "category": "Storage and S2D",
+            "subcategory": "Volume Resiliency",
+            "text": "Three-way mirroring is utilized for production workloads on clusters with 3 or more nodes",
+            "description": "Three-way mirroring provides the highest performance and fault tolerance, tolerating simultaneous drive or node failures without downtime. Two-way mirroring is strictly reserved for 2-node clusters with a witness.",
+            "severity": "High",
+            "waf": "Reliability",
+            "service": "Storage Spaces Direct",
+            "guid": "5c901842-4f91-4927-9911-37d82594a101",
+            "link": "https://learn.microsoft.com/azure/azure-local/concepts/fault-tolerance"
+        },
+        {
+            "id": "02.01.04",
+            "category": "Storage and S2D",
+            "subcategory": "Volume Resiliency",
+            "text": "Mirror-accelerated parity is restricted to sequential, archive, or backup workloads",
+            "description": "Parity and Mirror-Accelerated Parity (MAP) trade random write IOPS for capacity efficiency. High-performance, random-write workloads (like SQL databases, transaction logs, and VDI) must never be hosted on pure parity tiers.",
+            "severity": "Medium",
+            "waf": "Performance",
+            "service": "Storage Spaces Direct",
+            "guid": "8e3b1029-4a91-4ef8-a021-d748192348aa",
+            "link": "https://learn.microsoft.com/azure/azure-local/manage/create-volumes#create-a-mirror-accelerated-parity-volume"
+        },
+        {
+            "id": "02.01.05",
+            "category": "Storage and S2D",
+            "subcategory": "Reserve Capacity",
+            "text": "Storage pool maintains reserve capacity equal to at least one capacity drive per node",
+            "description": "Always maintain sufficient unallocated storage space in the storage pool to allow automated in-place repair and re-sync of volume data immediately following a disk failure, without requiring immediate technician physical drive replacement.",
+            "severity": "High",
+            "waf": "Reliability",
+            "service": "Storage Spaces Direct",
+            "guid": "1b938f1d-5363-476e-bbd7-acfa500bdc0c",
+            "link": "https://learn.microsoft.com/azure/azure-local/manage/reserve-capacity"
+        },
+        {
+            "id": "02.01.06",
+            "category": "Storage and S2D",
+            "subcategory": "Delimited Allocation",
+            "text": "Delimited volume allocation is enabled on clusters with 4 or more nodes",
+            "description": "Delimited allocation bounds volume data copies to a designated subset of nodes (e.g., 3 or 4 nodes out of an 8-node cluster). This prevents a multi-node failure from affecting all volumes simultaneously, dramatically increasing cluster survivability.",
+            "severity": "Medium",
+            "waf": "Reliability",
+            "service": "Storage Spaces Direct",
+            "guid": "c482910a-3984-4821-b019-e93284719283",
+            "link": "https://learn.microsoft.com/azure/azure-local/manage/delimited-allocation"
+        },
+        {
+            "id": "02.01.07",
+            "category": "Storage and S2D",
+            "subcategory": "Cluster Shared Volumes",
+            "text": "Cluster Shared Volumes (CSVs) are created in multiples of cluster node count and balanced",
+            "description": "Create CSVs in integer multiples of the cluster node count (e.g., 2 CSVs per node in a 4-node cluster) and distribute volume ownership evenly across all nodes. This balances CSV metadata coordinator responsibilities and optimizes SMB Multichannel network bandwidth.",
+            "severity": "Medium",
+            "waf": "Performance",
+            "service": "Storage Spaces Direct",
+            "guid": "3a9182bc-9021-4823-99a1-cb9384729103",
+            "link": "https://learn.microsoft.com/azure/azure-local/manage/create-volumes"
+        },
+        {
+            "id": "02.01.08",
+            "category": "Storage and S2D",
+            "subcategory": "Caching",
+            "text": "CSV in-memory read caching is enabled and appropriately sized",
+            "description": "In-memory read caching allocates host RAM to accelerate unbuffered read operations. Configure CSV cache (typically 1GB to 4GB per host for standard workloads; up to larger sizes for VDI) using 'BlockCacheSize' parameter.",
+            "severity": "Medium",
+            "waf": "Performance",
+            "service": "Storage Spaces Direct",
+            "guid": "a631e7dc-8879-45bd-b0a7-e5927b805428",
+            "link": "https://learn.microsoft.com/azure/azure-local/manage/use-csv-cache"
+        },
+        {
+            "id": "02.01.09",
+            "category": "Storage and S2D",
+            "subcategory": "File System",
+            "text": "Volumes are formatted with ReFS using 64KB allocation unit size",
+            "description": "All Cluster Shared Volumes must be formatted with the Resilient File System (ReFS) using a 64KB cluster allocation size. ReFS delivers near-instant VHDX creation, accelerated checkpoint merging (block cloning), real-time metadata repair, and sparse volume support.",
+            "severity": "High",
+            "waf": "Performance",
+            "service": "Storage Spaces Direct",
+            "guid": "6d918274-1294-4821-ab91-c91823749102",
+            "link": "https://learn.microsoft.com/windows-server/storage/refs/refs-overview"
+        },
+        {
+            "id": "02.01.10",
+            "category": "Storage and S2D",
+            "subcategory": "Storage Baselining",
+            "text": "DiskSpd or VMFleet baselining has been conducted prior to production workload onboarding",
+            "description": "Execute synthetic stress and baseline testing using DiskSpd or VMFleet across all nodes prior to migrating production workloads. Establish baseline read/write IOPS, 99th percentile latencies, and verify failover behavior under simulated load.",
+            "severity": "Low",
+            "waf": "Performance",
+            "service": "Storage Spaces Direct",
+            "guid": "7a918234-8821-49a3-bc12-d81923847101",
+            "link": "https://github.com/microsoft/diskspd/wiki/VMFleet"
+        },
+        {
+            "id": "02.01.11",
+            "category": "Storage and S2D",
+            "subcategory": "Volume Resiliency",
+            "text": "Nested Resiliency (Nested 2-Way Mirror or Nested MAP) is evaluated for 2-node clusters",
+            "description": "For 2-node clusters, consider Nested Two-Way Mirroring or Nested Mirror-Accelerated Parity. Unlike standard two-way mirroring which cannot tolerate a drive failure on the remaining node during node maintenance, nested resiliency allows survival of a drive failure even when one server is offline.",
+            "severity": "Medium",
+            "waf": "Reliability",
+            "service": "Storage Spaces Direct",
+            "guid": "1995bea8-0346-4ae9-813f-b43594167be2",
+            "link": "https://learn.microsoft.com/azure/azure-local/concepts/nested-resiliency"
+        },
+        {
+            "id": "02.01.12",
+            "category": "Storage and S2D",
+            "subcategory": "Caching",
+            "text": "The ratio of capacity drives to cache drives is a uniform multiple across all nodes",
+            "description": "When implementing hybrid storage pools (e.g., NVMe cache with SSD/HDD capacity), the number of capacity drives must be an integer multiple of the number of cache drives per node (e.g., 2 cache to 8 capacity drives = 4:1) to ensure even cache tier distribution.",
+            "severity": "Medium",
+            "waf": "Performance",
+            "service": "Storage Spaces Direct",
+            "guid": "073b89a2-27c2-43cf-a654-d8cb8336bc10",
+            "link": "https://learn.microsoft.com/azure/azure-local/concepts/understand-storage-spaces-direct-cache"
+        },
+        {
+            "id": "02.01.13",
+            "category": "Storage and S2D",
+            "subcategory": "Physical Storage",
+            "text": "No mixing of disparate drive bus protocols (NVMe, SAS, SATA) within the same tier",
+            "description": "Ensure that within a given tier (cache or capacity), all drives utilize the same bus protocol and form factor. Mixing SAS and NVMe drives within the same capacity tier causes unpredictable queue depths and severe storage controller bottlenecks.",
+            "severity": "High",
+            "waf": "Performance",
+            "service": "Storage Spaces Direct",
+            "guid": "61767651-a853-4bf8-a023-9d2135ec6aa7",
+            "link": "https://learn.microsoft.com/azure/azure-local/concepts/system-requirements#storage-requirements"
+        },
+        {
+            "id": "02.01.14",
+            "category": "Storage and S2D",
+            "subcategory": "Storage Repair",
+            "text": "Storage pool repair task priority is calibrated to balance repair speed and tenant I/O",
+            "description": "Review the Storage Spaces Direct repair task priority ('Set-StoragePool -RepairPolicy'). Balance automatic data re-sync speed after disk replacement against production VM latency requirements to avoid degraded tenant performance during rebuilds.",
+            "severity": "Medium",
+            "waf": "Performance",
+            "service": "Storage Spaces Direct",
+            "guid": "84d0d227-5e24-4871-9817-7a7a9c0a2c52",
+            "link": "https://learn.microsoft.com/windows-server/storage/storage-spaces/storage-spaces-direct-health-service"
+        },
+        {
+            "id": "03.01.01",
+            "category": "Networking and Network ATC",
+            "subcategory": "Network ATC",
+            "text": "Host networking configuration is declared and enforced using Network ATC",
+            "description": "Deploy host virtual switches, teaming, VLANs, and adapter properties using Network ATC intents ('Add-NetIntent'). Network ATC enforces standard Microsoft-tested network configurations, prevents configuration drift, and dynamically repairs deviations.",
+            "severity": "High",
+            "waf": "Operations",
+            "service": "Network ATC",
+            "guid": "9b817263-4921-4821-bc19-e81923847102",
+            "link": "https://learn.microsoft.com/azure/azure-local/concepts/network-atc-overview"
+        },
+        {
+            "id": "03.01.02",
+            "category": "Networking and Network ATC",
+            "subcategory": "NIC Redundancy",
+            "text": "Physical network adapters are redundant and symmetrically connected to independent ToR switches",
+            "description": "Every cluster node must have redundant network adapters (minimum 25GbE recommended for S2D) connected to independent top-of-rack (ToR) physical switches configured with MLAG, vPC, or independent subnets to prevent any single point of failure.",
+            "severity": "High",
+            "waf": "Reliability",
+            "service": "Network ATC",
+            "guid": "c1928374-1829-4a91-bc10-d81923847192",
+            "link": "https://learn.microsoft.com/azure/azure-local/concepts/physical-network-requirements"
+        },
+        {
+            "id": "03.01.03",
+            "category": "Networking and Network ATC",
+            "subcategory": "RDMA Configuration",
+            "text": "RDMA (RoCEv2 or iWARP) is enabled and validated on all storage adapters",
+            "description": "Remote Direct Memory Access (RDMA) must be enabled on storage adapters to provide high throughput, sub-millisecond latency, and bypass host CPU overhead for Storage Spaces Direct SMB traffic. Validate functionality using 'Test-RDMA.ps1'.",
+            "severity": "High",
+            "waf": "Performance",
+            "service": "Network ATC",
+            "guid": "2c918234-9912-4821-b019-d91823847192",
+            "link": "https://learn.microsoft.com/azure/azure-local/manage/validate-rdma"
+        },
+        {
+            "id": "03.01.04",
+            "category": "Networking and Network ATC",
+            "subcategory": "QoS and PFC",
+            "text": "Priority Flow Control (PFC) and Enhanced Transmission Selection (ETS) are configured on switches for RoCEv2",
+            "description": "When using RoCEv2, configure Lossless Ethernet with PFC (Priority 3) and ETS (minimum 50% reserved bandwidth) across both physical switches and host adapters. Mismatches between switch DCB configurations and host settings cause packet drops and severe storage pauses.",
+            "severity": "High",
+            "waf": "Performance",
+            "service": "Network ATC",
+            "guid": "3b819234-1829-4821-bc19-a91823847101",
+            "link": "https://learn.microsoft.com/azure/azure-local/concepts/physical-switch-requirements"
+        },
+        {
+            "id": "03.01.05",
+            "category": "Networking and Network ATC",
+            "subcategory": "Jumbo Frames",
+            "text": "Jumbo Frames (MTU 9014 or 9216) are enabled end-to-end along the storage path",
+            "description": "Configure Jumbo Frames (MTU 9014 on host adapters and MTU 9216 on physical switches) across all storage networks. Jumbo frames reduce packet processing overhead, improve CPU efficiency, and maximize RDMA line-rate throughput.",
+            "severity": "Medium",
+            "waf": "Performance",
+            "service": "Network ATC",
+            "guid": "4c918234-2918-4821-a019-b91823847102",
+            "link": "https://learn.microsoft.com/azure/azure-local/concepts/physical-network-requirements#jumbo-frames"
+        },
+        {
+            "id": "03.01.06",
+            "category": "Networking and Network ATC",
+            "subcategory": "Storage Subnet Isolation",
+            "text": "Storage adapters are on non-routable subnets with NO default gateways configured",
+            "description": "Each storage network adapter must be assigned a static IP on an isolated, non-routable VLAN/subnet (Storage 1 and Storage 2). Storage adapters must NEVER have a default gateway configured, preventing SMB storage traffic from attempting to route through external firewalls.",
+            "severity": "High",
+            "waf": "Reliability",
+            "service": "Network ATC",
+            "guid": "5c918234-3918-4821-b019-c91823847103",
+            "link": "https://learn.microsoft.com/azure/azure-local/deploy/deployment-network-reference#storage-ip-assignment"
+        },
+        {
+            "id": "03.01.07",
+            "category": "Networking and Network ATC",
+            "subcategory": "Topology Architecture",
+            "text": "Clusters with 4 or more nodes use switched storage networking rather than switchless",
+            "description": "While 2-node and 3-node clusters support switchless direct-connect interconnects, clusters with 4 or more nodes must use switched storage networking with redundant ToR switches to prevent excessive cabling complexity and ensure predictable bandwidth.",
+            "severity": "Medium",
+            "waf": "Reliability",
+            "service": "Network ATC",
+            "guid": "6c918234-4918-4821-c019-d91823847104",
+            "link": "https://learn.microsoft.com/azure/azure-local/concepts/network-reference-patterns"
+        },
+        {
+            "id": "03.01.08",
+            "category": "Networking and Network ATC",
+            "subcategory": "Network Health",
+            "text": "Network HUD (Heads-Up Display) is active and monitoring adapter health",
+            "description": "Network HUD continuously analyzes adapter drivers, PCIe flappings, and physical link errors, automatically diagnosing and surfacing actionable hardware issues before they degrade cluster stability.",
+            "severity": "Low",
+            "waf": "Operations",
+            "service": "Network ATC",
+            "guid": "7c918234-5918-4821-d019-e91823847105",
+            "link": "https://learn.microsoft.com/azure/azure-local/manage/network-hud"
+        },
+        {
+            "id": "03.01.09",
+            "category": "Networking and Network ATC",
+            "subcategory": "Software Defined Networking",
+            "text": "SDN deployments include at least 3 Network Controller VMs and regular state backups",
+            "description": "When deploying Software Defined Networking (SDN) for microsegmentation or virtual networks, deploy a minimum of 3 Network Controller VMs distributed across distinct physical nodes and configure automated backups of the Network Controller database.",
+            "severity": "High",
+            "waf": "Reliability",
+            "service": "Software Defined Networking",
+            "guid": "8c918234-6918-4821-e019-f91823847106",
+            "link": "https://learn.microsoft.com/azure/azure-local/manage/sdn-overview"
+        },
+        {
+            "id": "03.01.10",
+            "category": "Networking and Network ATC",
+            "subcategory": "Switchless Networking",
+            "text": "Dual-link full mesh interconnect cabling is implemented on 2-node and 3-node switchless clusters",
+            "description": "For switchless cluster topologies, ensure redundant dual-link direct cabling exists between every node pair (full mesh). Redundant interconnect links ensure a single failed cable or NIC port does not sever inter-node communication.",
+            "severity": "High",
+            "waf": "Reliability",
+            "service": "Network ATC",
+            "guid": "f57e44c7-a6e5-48b9-b4b6-b9a562b6f1ae",
+            "link": "https://learn.microsoft.com/azure/azure-local/concepts/network-reference-patterns#switchless"
+        },
+        {
+            "id": "03.01.11",
+            "category": "Networking and Network ATC",
+            "subcategory": "QoS and Traffic Shaping",
+            "text": "Minimum bandwidth reservation is configured when sharing virtual switches for Compute and Management",
+            "description": "If management and tenant compute traffic share converged physical network adapters, configure minimum bandwidth reservations (Weight or Absolute) via Network ATC or Hyper-V QoS to prevent runaway tenant traffic from starving management and cluster heartbeats.",
+            "severity": "Medium",
+            "waf": "Performance",
+            "service": "Network ATC",
+            "guid": "cefa0672-a2a5-4d46-ad40-a08172d08295",
+            "link": "https://learn.microsoft.com/azure/azure-local/concepts/network-atc-overview#network-traffic-types"
+        },
+        {
+            "id": "03.01.12",
+            "category": "Networking and Network ATC",
+            "subcategory": "Live Migration",
+            "text": "Live Migration network order is prioritized to use RDMA storage networks",
+            "description": "Configure the cluster Live Migration network priority order to select SMB/RDMA storage interfaces first. Live Migration over RDMA dramatically accelerates VM evacuation during host maintenance while keeping CPU overhead near zero.",
+            "severity": "Medium",
+            "waf": "Performance",
+            "service": "Azure Local",
+            "guid": "dd4c1300-1d53-43cc-b4cf-2ac9c1af145d",
+            "link": "https://learn.microsoft.com/windows-server/virtualization/hyper-v/manage/use-live-migration-without-failover-clustering"
+        },
+        {
+            "id": "03.01.13",
+            "category": "Networking and Network ATC",
+            "subcategory": "Proxy Configuration",
+            "text": "Proxy configuration includes static bypass rules for local subnets and link-local ranges",
+            "description": "When an outbound HTTP proxy is configured for Azure Local registration and updates ('Set-AzStackHciRegistrationProxy'), ensure the proxy bypass list explicitly contains all local cluster subnets, management IPs, and 169.254.0.0/16 link-local addresses.",
+            "severity": "High",
+            "waf": "Operations",
+            "service": "Azure Local",
+            "guid": "571b7809-f555-431c-8a78-3e9a9d72cb34",
+            "link": "https://learn.microsoft.com/azure/azure-local/concepts/firewall-requirements#proxy-server-configuration"
+        },
+        {
+            "id": "03.01.14",
+            "category": "Networking and Network ATC",
+            "subcategory": "DNS Configuration",
+            "text": "Redundant DNS servers are configured with static forward and reverse lookup records",
+            "description": "All cluster nodes must be configured with at least two highly available DNS servers. Verify forward (A) and reverse (PTR) DNS records exist for all node management adapters, cluster name object (CNO), and the Arc Resource Bridge IP.",
+            "severity": "High",
+            "waf": "Reliability",
+            "service": "Azure Local",
+            "guid": "b43cdb98-6a08-4967-9abb-24c43ff24048",
+            "link": "https://learn.microsoft.com/azure/azure-local/concepts/system-requirements#domain-requirements"
+        },
+        {
+            "id": "04.01.01",
+            "category": "Hybrid Management and Azure Arc",
+            "subcategory": "Arc Resource Bridge",
+            "text": "Azure Arc Resource Bridge (ARB) is deployed and healthy on the cluster",
+            "description": "The Azure Arc Resource Bridge appliance VM enables Azure Resource Manager control-plane operations on-premises. Verify the ARB appliance is in 'Running' state, has sufficient resources, and connectivity to Azure Arc control plane.",
+            "severity": "High",
+            "waf": "Operations",
+            "service": "Azure Arc",
+            "guid": "9c918234-7918-4821-f019-091823847107",
+            "link": "https://learn.microsoft.com/azure/azure-local/manage/azure-arc-resource-bridge-overview",
+            "graph": "resources | where type =~ 'microsoft.resourceconnector/appliances' | project id, name, properties.status, location"
+        },
+        {
+            "id": "04.01.02",
+            "category": "Hybrid Management and Azure Arc",
+            "subcategory": "Custom Locations",
+            "text": "Custom Location is properly configured and mapped to the Azure Local cluster",
+            "description": "Ensure a Custom Location resource exists in Azure mapped to the Arc Resource Bridge and Azure Local cluster. This serves as the target deployment construct for Arc VMs, Logical Networks, and Storage Paths.",
+            "severity": "High",
+            "waf": "Operations",
+            "service": "Azure Arc",
+            "guid": "0d918234-8918-4821-0019-191823847108",
+            "link": "https://learn.microsoft.com/azure/azure-local/manage/custom-locations-overview",
+            "graph": "resources | where type =~ 'microsoft.extendedlocation/customlocations' | project id, name, location, properties"
+        },
+        {
+            "id": "04.01.03",
+            "category": "Hybrid Management and Azure Arc",
+            "subcategory": "Arc VM Management",
+            "text": "Logical Networks and Storage Paths are defined for native Arc VM provisioning",
+            "description": "Configure Logical Networks (with static IP pools or DHCP) and Storage Paths in Azure to enable self-service VM lifecycle management (create, resize, start, stop, snapshot) from Azure Portal, ARM, Bicep, or Terraform.",
+            "severity": "Medium",
+            "waf": "Operations",
+            "service": "Azure Arc",
+            "guid": "1d918234-9918-4821-1019-291823847109",
+            "link": "https://learn.microsoft.com/azure/azure-local/manage/azure-arc-vm-management-overview",
+            "graph": "resources | where type =~ 'microsoft.azurestackhci/logicalnetworks' or type =~ 'microsoft.azurestackhci/storagecontainers' | project id, name, type, location"
+        },
+        {
+            "id": "04.01.04",
+            "category": "Hybrid Management and Azure Arc",
+            "subcategory": "Arc VM Management",
+            "text": "Virtual machines are managed natively through Azure Arc VM control plane",
+            "description": "Leverage Azure Arc VM management to automate VM operations, attach Azure tags, enforce Azure Policy guest configurations, and apply VM extensions (such as Azure Monitor Agent and Azure Connected Machine Agent) from the cloud.",
+            "severity": "Medium",
+            "waf": "Operations",
+            "service": "Azure Arc",
+            "guid": "2d918234-0918-4821-2019-39182384710a",
+            "link": "https://learn.microsoft.com/azure/azure-local/manage/create-arc-virtual-machines",
+            "graph": "resources | where type =~ 'microsoft.azurestackhci/virtualmachineinstances' | project id, name, properties.status, location"
+        },
+        {
+            "id": "04.01.05",
+            "category": "Hybrid Management and Azure Arc",
+            "subcategory": "Connectivity",
+            "text": "Required Azure Arc outbound firewall endpoints are whitelisted without SSL termination",
+            "description": "Cluster nodes and the Arc Resource Bridge must have uninterrupted outbound HTTPS (TCP 443) connectivity to required Azure endpoints. Network firewalls and proxies must NOT perform SSL inspection / TLS interception on Azure Arc endpoints, which breaks certificate pinning.",
+            "severity": "High",
+            "waf": "Security",
+            "service": "Azure Arc",
+            "guid": "3d918234-1918-4821-3019-49182384710b",
+            "link": "https://learn.microsoft.com/azure/azure-local/concepts/firewall-requirements"
+        },
+        {
+            "id": "04.01.06",
+            "category": "Hybrid Management and Azure Arc",
+            "subcategory": "Arc Identity and RBAC",
+            "text": "Service Principal / Managed Identity credentials for Arc registration follow least privilege",
+            "description": "Use dedicated Microsoft Entra service principals with scoped RBAC roles ('Azure Connected Machine Onboarding', 'Azure Stack HCI Administrator') for cluster registration. Ensure automated secret rotation or Managed Identity is implemented.",
+            "severity": "Medium",
+            "waf": "Security",
+            "service": "Azure Arc",
+            "guid": "4d918234-2918-4821-4019-59182384710c",
+            "link": "https://learn.microsoft.com/azure/azure-local/deploy/deployment-prerequisites#azure-requirements"
+        },
+        {
+            "id": "04.01.07",
+            "category": "Hybrid Management and Azure Arc",
+            "subcategory": "Fleet Governance",
+            "text": "Edge clusters are registered to Azure Arc Fleet Management for multi-cluster governance",
+            "description": "For organizations deploying multiple Azure Local clusters across branch offices or edge locations, organize clusters into centralized resource groups and Azure Arc Fleet structures for unified policy enforcement, compliance tracking, and update orchestration.",
+            "severity": "Low",
+            "waf": "Operations",
+            "service": "Azure Arc",
+            "guid": "5d918234-3918-4821-5019-69182384710d",
+            "link": "https://learn.microsoft.com/azure/azure-local/manage/azure-local-fleet-management"
+        },
+        {
+            "id": "04.01.08",
+            "category": "Hybrid Management and Azure Arc",
+            "subcategory": "Cluster Connectivity",
+            "text": "Azure Local cluster maintains regular cloud sync (at least once every 30 days)",
+            "description": "Verify the cluster syncs with Azure at least once every 30 days to validate licensing and subscription status. If disconnected beyond 30 days, the cluster enters an out-of-policy state that restricts creating new virtual machines.",
+            "severity": "High",
+            "waf": "Reliability",
+            "service": "Azure Local",
+            "guid": "e2776cab-ff2e-4e4e-aa3f-b935318281e8",
+            "link": "https://learn.microsoft.com/azure/azure-local/concepts/billing#sync-status",
+            "graph": "resources | where type =~ 'microsoft.azurestackhci/clusters' | project id, name, properties.status, properties.registrationTimestamp, properties.lastSyncTimestamp"
+        },
+        {
+            "id": "04.01.09",
+            "category": "Hybrid Management and Azure Arc",
+            "subcategory": "Extensions Management",
+            "text": "Azure Arc VM and Host extensions are configured with automatic upgrade enabled",
+            "description": "Enable automatic upgrade for installed Azure Arc extensions (Azure Monitor Agent, Azure Connected Machine Agent, Telemetry extension) to guarantee continuous patch compliance without manual intervention.",
+            "severity": "Medium",
+            "waf": "Operations",
+            "service": "Azure Arc",
+            "guid": "46c66577-fcd1-48ae-96ff-65681f94d54c",
+            "link": "https://learn.microsoft.com/azure/azure-arc/servers/manage-vm-extensions",
+            "graph": "resources | where type =~ 'microsoft.hybridcompute/machines/extensions' | project id, name, properties.type, properties.autoUpgradeMinorVersion"
+        },
+        {
+            "id": "05.01.01",
+            "category": "Security and Governance",
+            "subcategory": "Security Baseline",
+            "text": "Azure Local Security Baseline is enabled and enforced across all nodes",
+            "description": "Enforce the built-in Azure Local security baseline (default in 23H2/24H2), which automatically hardens over 300 OS and hypervisor security settings, disallows legacy protocols (SMBv1, TLS 1.0/1.1), and enforces secure cipher suites.",
+            "severity": "High",
+            "waf": "Security",
+            "service": "Azure Local",
+            "guid": "6d918234-4918-4821-6019-79182384710e",
+            "link": "https://learn.microsoft.com/azure/azure-local/concepts/security-baseline"
+        },
+        {
+            "id": "05.01.02",
+            "category": "Security and Governance",
+            "subcategory": "Application Control",
+            "text": "Windows Defender Application Control (WDAC) is active in Enforced mode",
+            "description": "Ensure WDAC is operating in enforced mode across all cluster nodes to restrict executable binaries, drivers, and PowerShell scripts strictly to trusted Microsoft and certified hardware partner signatures, mitigating zero-day malware execution.",
+            "severity": "High",
+            "waf": "Security",
+            "service": "Azure Local",
+            "guid": "7d918234-5918-4821-7019-89182384710f",
+            "link": "https://learn.microsoft.com/azure/azure-local/manage/manage-wdac"
+        },
+        {
+            "id": "05.01.03",
+            "category": "Security and Governance",
+            "subcategory": "Data Encryption",
+            "text": "BitLocker volume encryption is enabled on all Cluster Shared Volumes and OS drives",
+            "description": "Enable BitLocker encryption on all CSV volumes and host OS drives backed by TPM 2.0 protectors. BitLocker safeguards data-at-rest against physical disk theft or unauthorized hardware removal from edge facilities.",
+            "severity": "High",
+            "waf": "Security",
+            "service": "Azure Local",
+            "guid": "09.01.01-8d918234-6918-4821-8019-991823847110",
+            "link": "https://learn.microsoft.com/azure/azure-local/manage/bitlocker"
+        },
+        {
+            "id": "05.01.04",
+            "category": "Security and Governance",
+            "subcategory": "Credential Protection",
+            "text": "Windows Defender Credential Guard is enabled on all cluster nodes",
+            "description": "Credential Guard isolates secrets (such as NTLM password hashes and Kerberos tickets) inside a virtualization-based security enclaved memory container, preventing Pass-the-Hash and Pass-the-Ticket credential theft attacks.",
+            "severity": "High",
+            "waf": "Security",
+            "service": "Azure Local",
+            "guid": "09.01.04-9d918234-7918-4821-9019-a91823847111",
+            "link": "https://learn.microsoft.com/windows/security/identity-protection/credential-guard/"
+        },
+        {
+            "id": "05.01.05",
+            "category": "Security and Governance",
+            "subcategory": "Network Security",
+            "text": "SMB encryption and SMB signing are enforced for intra-cluster traffic",
+            "description": "Configure SMB encryption for inter-node Storage Spaces Direct and live migration communications to protect cluster data in-transit across physical network switches from sniffing or tampering.",
+            "severity": "Medium",
+            "waf": "Security",
+            "service": "Azure Local",
+            "guid": "09.01.02-ad918234-8918-4821-a019-b91823847112",
+            "link": "https://learn.microsoft.com/windows-server/storage/file-server/smb-security"
+        },
+        {
+            "id": "05.01.06",
+            "category": "Security and Governance",
+            "subcategory": "Identity and Access",
+            "text": "Active Directory Group Policy inheritance is blocked on the Azure Local cluster OU",
+            "description": "Cluster computer accounts must reside in a dedicated Organizational Unit (OU) with GPO inheritance blocked. Misconfigured domain-wide Group Policies (such as User Rights Assignment, firewall, or audit overrides) can break cluster services and Hyper-V virtualization.",
+            "severity": "High",
+            "waf": "Operations",
+            "service": "Azure Local",
+            "guid": "06.02.01-bd918234-9918-4821-b019-c91823847113",
+            "link": "https://learn.microsoft.com/azure/azure-local/deploy/deployment-prep-active-directory"
+        },
+        {
+            "id": "05.01.07",
+            "category": "Security and Governance",
+            "subcategory": "Identity and Access",
+            "text": "Just-Enough-Administration (JEA), LAPS, and PIM are used for host administrative access",
+            "description": "Avoid persistent domain administrator logins to host servers. Use Windows LAPS (Local Administrator Password Solution) for unique local admin passwords, Just-Enough-Administration (JEA) endpoints for maintenance, and Microsoft Entra Privileged Identity Management (PIM) for Azure RBAC roles.",
+            "severity": "Medium",
+            "waf": "Security",
+            "service": "Azure Local",
+            "guid": "cd918234-0918-4821-c019-d91823847114",
+            "link": "https://learn.microsoft.com/windows-server/identity/laps/laps-overview"
+        },
+        {
+            "id": "05.01.08",
+            "category": "Security and Governance",
+            "subcategory": "Threat Protection",
+            "text": "Microsoft Defender for Cloud and Defender for Endpoint are active across nodes",
+            "description": "Integrate Azure Local cluster hosts with Microsoft Defender for Cloud (Defender for Servers) to ensure continuous threat detection, anti-malware real-time protection, and compliance vulnerability scanning.",
+            "severity": "Medium",
+            "waf": "Security",
+            "service": "Azure Local",
+            "guid": "09.01.03-dd918234-1918-4821-d019-e91823847115",
+            "link": "https://learn.microsoft.com/azure/defender-for-cloud/overview-page"
+        },
+        {
+            "id": "05.01.09",
+            "category": "Security and Governance",
+            "subcategory": "Deployment Hygiene",
+            "text": "Deployment credentials used during cluster orchestration are revoked or deactivated",
+            "description": "Temporary administrative accounts created solely to run initial Active Directory prep or cloud deployment scripts should have credentials rotated, permissions revoked, or accounts disabled post-commissioning.",
+            "severity": "Medium",
+            "waf": "Security",
+            "service": "Azure Local",
+            "guid": "607ec818-12d0-4daa-ad10-aedd6c4bb0bd",
+            "link": "https://learn.microsoft.com/azure/azure-local/deploy/deployment-prep-active-directory#deployment-user-permissions"
+        },
+        {
+            "id": "06.01.01",
+            "category": "Operations and Lifecycle Management",
+            "subcategory": "Full-Stack Updates",
+            "text": "Cluster updates are executed via Azure Local Lifecycle Manager / Azure Update Manager",
+            "description": "Utilize Azure Local Lifecycle Manager (LCM) to apply full-stack, orchestrated, one-click updates encompassing host OS patches, OEM hardware firmware, BIOS, drivers, and Arc infrastructure agents with automated node draining and zero workload disruption.",
+            "severity": "High",
+            "waf": "Operations",
+            "service": "Azure Update Manager",
+            "guid": "ed918234-2918-4821-e019-f91823847116",
+            "link": "https://learn.microsoft.com/azure/azure-local/manage/update-azure-local",
+            "graph": "resources | where type =~ 'microsoft.azurestackhci/updates' or type =~ 'microsoft.azurestackhci/updateruns' | project id, name, properties"
+        },
+        {
+            "id": "06.01.02",
+            "category": "Operations and Lifecycle Management",
+            "subcategory": "Cluster Updates",
+            "text": "Cluster-Aware Updating (CAU) node drain and live migration behavior is validated",
+            "description": "Verify that during automated or manual update sequences, nodes enter maintenance mode, migrate tenant VMs seamlessly to healthy partner nodes, update and reboot cleanly, and safely resume without dropping VM connectivity.",
+            "severity": "High",
+            "waf": "Reliability",
+            "service": "Azure Local",
+            "guid": "06.01.03-fd918234-3918-4821-f019-091823847117",
+            "link": "https://learn.microsoft.com/windows-server/failover-clustering/cluster-aware-updating"
+        },
+        {
+            "id": "06.01.03",
+            "category": "Operations and Lifecycle Management",
+            "subcategory": "Environment Verification",
+            "text": "Environment Checker and Hardware Validation tests run before updates or major changes",
+            "description": "Run 'Invoke-AzStackHciConnectivityChecker' and 'Test-AzStackHciHardwareValidation' to verify network connectivity, DNS resolution, time synchronization (NTP), certificates, and storage health prior to applying update rings or major changes.",
+            "severity": "Medium",
+            "waf": "Operations",
+            "service": "Azure Local",
+            "guid": "06.01.06-0e918234-4918-4821-0019-191823847118",
+            "link": "https://learn.microsoft.com/azure/azure-local/deploy/environment-checker"
+        },
+        {
+            "id": "06.01.04",
+            "category": "Operations and Lifecycle Management",
+            "subcategory": "Monitoring and Observability",
+            "text": "Azure Local Insights is configured with Azure Monitor Agent and Log Analytics workspace",
+            "description": "Deploy Azure Monitor Agent (AMA) and configure Data Collection Rules (DCR) pointing to a centralized Log Analytics workspace. Enable Azure Local Insights to visualize cluster CPU, memory, storage pool capacity, IOPS, and latency across all nodes.",
+            "severity": "High",
+            "waf": "Operations",
+            "service": "Azure Local",
+            "guid": "03.01.03-1e918234-5918-4821-1019-291823847119",
+            "link": "https://learn.microsoft.com/azure/azure-local/manage/azure-monitor-insights",
+            "graph": "resources | where type =~ 'microsoft.insights/datacollectionrules' or type =~ 'microsoft.operationalinsights/workspaces' | project id, name, location"
+        },
+        {
+            "id": "06.01.05",
+            "category": "Operations and Lifecycle Management",
+            "subcategory": "Alerting",
+            "text": "Azure Monitor metric and log alert rules are configured for critical cluster fault conditions",
+            "description": "Set up automated Azure Monitor alerts for node unexpected disconnect, storage pool available capacity dropping below 15%, physical drive faults, cluster quorum degradation, and Arc Resource Bridge heartbeat failure.",
+            "severity": "High",
+            "waf": "Operations",
+            "service": "Azure Local",
+            "guid": "03.01.02-2e918234-6918-4821-2019-39182384711a",
+            "link": "https://learn.microsoft.com/azure/azure-local/manage/monitor-metrics"
+        },
+        {
+            "id": "06.01.06",
+            "category": "Operations and Lifecycle Management",
+            "subcategory": "Health Service",
+            "text": "Cluster Health Service is operational with no unresolved critical faults",
+            "description": "Verify via 'Get-HealthFault' in PowerShell or Azure Portal that the Cluster Health Service reports zero active critical hardware, storage, or network faults. Ensure fault notifications are wired to operational ticketing systems.",
+            "severity": "Medium",
+            "waf": "Operations",
+            "service": "Azure Local",
+            "guid": "3e918234-7918-4821-3019-49182384711b",
+            "link": "https://learn.microsoft.com/windows-server/storage/storage-spaces/storage-spaces-direct-health-service"
+        },
+        {
+            "id": "06.01.07",
+            "category": "Operations and Lifecycle Management",
+            "subcategory": "Time Synchronization",
+            "text": "Authoritative NTP / PTP time synchronization is configured on all hosts and domain controllers",
+            "description": "Ensure all nodes synchronize with reliable, authoritative NTP time sources. Inconsistent clock skew between nodes breaks Kerberos authentication, cluster heartbeats, Storage Spaces Direct metadata sequencing, and Arc token generation.",
+            "severity": "High",
+            "waf": "Reliability",
+            "service": "Azure Local",
+            "guid": "4e918234-8918-4821-4019-59182384711c",
+            "link": "https://learn.microsoft.com/azure/azure-local/concepts/system-requirements#domain-requirements"
+        },
+        {
+            "id": "06.01.08",
+            "category": "Operations and Lifecycle Management",
+            "subcategory": "Infrastructure as Code",
+            "text": "Cluster configuration and VM deployments are codified using ARM, Bicep, or Terraform",
+            "description": "Maintain version-controlled declarative templates (Bicep, ARM, or Terraform) for all Azure Local resource definitions (Logical Networks, Storage Containers, Virtual Machines, Arc Extensions). Codification prevents manual configuration drift and enables automated recovery.",
+            "severity": "Medium",
+            "waf": "Operations",
+            "service": "Azure Local",
+            "guid": "03a5d82c-cc84-4dcc-85ef-53e425b0a16b",
+            "link": "https://learn.microsoft.com/azure/azure-local/manage/create-arc-virtual-machines#deploy-using-bicep-or-arm"
+        },
+        {
+            "id": "06.01.09",
+            "category": "Operations and Lifecycle Management",
+            "subcategory": "Management Tools",
+            "text": "Windows Admin Center (WAC) is deployed in gateway mode and updated with latest extensions",
+            "description": "Deploy Windows Admin Center on a dedicated gateway server with HTTPS certificates and keep Azure Stack HCI / Azure Local extensions updated to enable local GUI troubleshooting when external cloud access is impaired.",
+            "severity": "Low",
+            "waf": "Operations",
+            "service": "Windows Admin Center",
+            "guid": "06.02.02-2bb7058c-dc13-42da-bc92-849e5b52d146",
+            "link": "https://learn.microsoft.com/azure/azure-local/manage/windows-admin-center"
+        },
+        {
+            "id": "07.01.01",
+            "category": "Workloads and Edge Services",
+            "subcategory": "AKS on Azure Local",
+            "text": "AKS enabled by Azure Arc is deployed following reference networking and storage architectures",
+            "description": "Deploy Arc-enabled AKS worker clusters with dedicated container subnets (Calico or Azure CNI) and Container Storage Interface (CSI) storage classes backed by high-performance CSVs.",
+            "severity": "Medium",
+            "waf": "Performance",
+            "service": "AKS on Azure Local",
+            "guid": "5e918234-9918-4821-5019-69182384711d",
+            "link": "https://learn.microsoft.com/azure/azure-local/manage/aks-overview",
+            "graph": "resources | where type =~ 'microsoft.kubernetes/connectedclusters' | project id, name, location, properties.agentVersion"
+        },
+        {
+            "id": "07.01.02",
+            "category": "Workloads and Edge Services",
+            "subcategory": "AKS on Azure Local",
+            "text": "GitOps and Flux v2 extensions are leveraged for automated Kubernetes workload deployment",
+            "description": "Utilize Azure Arc GitOps (Flux v2) configuration extensions to manage Kubernetes manifests, Helm charts, and cluster configurations declaratively from Git repositories rather than ad-hoc kubectl access.",
+            "severity": "Low",
+            "waf": "Operations",
+            "service": "AKS on Azure Local",
+            "guid": "6e918234-0918-4821-6019-79182384711e",
+            "link": "https://learn.microsoft.com/azure/azure-arc/kubernetes/tutorial-gitops-flux-v2"
+        },
+        {
+            "id": "07.01.03",
+            "category": "Workloads and Edge Services",
+            "subcategory": "Virtual Desktop",
+            "text": "Azure Virtual Desktop (AVD) for Azure Local is implemented for low-latency or sovereign VDI",
+            "description": "Deploy Windows 10/11 Enterprise multi-session host pools on Azure Local to satisfy data residency, local peripheral, or sub-millisecond edge latency requirements, leveraging existing cloud AVD management control plane.",
+            "severity": "Medium",
+            "waf": "Performance",
+            "service": "Azure Virtual Desktop",
+            "guid": "7e918234-1918-4821-7019-89182384711f",
+            "link": "https://learn.microsoft.com/azure/virtual-desktop/azure-local-overview"
+        },
+        {
+            "id": "07.01.04",
+            "category": "Workloads and Edge Services",
+            "subcategory": "Database Workloads",
+            "text": "SQL Server workloads leverage separate CSVs for data, log, and tempdb files",
+            "description": "For high-performance SQL Server or database VMs on Azure Local, separate Data files (.mdf), Transaction Log files (.ldf), and TempDB across distinct Cluster Shared Volumes with dedicated formatting and cache considerations.",
+            "severity": "Medium",
+            "waf": "Performance",
+            "service": "Azure Local",
+            "guid": "8e918234-2918-4821-8019-991823847120",
+            "link": "https://learn.microsoft.com/azure/azure-local/manage/sql-server"
+        },
+        {
+            "id": "07.01.05",
+            "category": "Workloads and Edge Services",
+            "subcategory": "Database Workloads",
+            "text": "Azure Arc-enabled Data Services (SQL Managed Instance) evaluated for cloud-native edge database needs",
+            "description": "Evaluate Azure Arc-enabled SQL Managed Instance on AKS on Azure Local for cloud-like automated patching, built-in high availability, elastic scaling, and unified Azure billing for on-premises database instances.",
+            "severity": "Low",
+            "waf": "Operations",
+            "service": "Azure Arc-enabled Data Services",
+            "guid": "0da2bbc0-4303-43be-a5e2-bc4a4a5befaf",
+            "link": "https://learn.microsoft.com/azure/azure-arc/data/overview"
+        },
+        {
+            "id": "08.01.01",
+            "category": "Backup and Disaster Recovery",
+            "subcategory": "VM Backup",
+            "text": "Application-consistent VM backup solution is configured and routinely tested",
+            "description": "Configure VM backups using Microsoft Azure Backup Server (MABS), Microsoft Data Protection Manager (DPM), or certified partner solutions (Veeam, Commvault) leveraging VSS Hyper-V integration for application consistency. Regularly test restore drills.",
+            "severity": "High",
+            "waf": "Reliability",
+            "service": "Azure Local",
+            "guid": "05.01.01-9e918234-3918-4821-9019-a91823847121",
+            "link": "https://learn.microsoft.com/azure/azure-local/manage/backup"
+        },
+        {
+            "id": "08.01.02",
+            "category": "Backup and Disaster Recovery",
+            "subcategory": "Disaster Recovery",
+            "text": "Azure Site Recovery (ASR) is configured for critical workload replication to Azure or a secondary cluster",
+            "description": "Protect business-critical Hyper-V VMs using Azure Site Recovery to orchestrate continuous replication, automated failover, and non-disruptive disaster recovery testing.",
+            "severity": "High",
+            "waf": "Reliability",
+            "service": "Azure Site Recovery",
+            "guid": "08.01.01-ae918234-4918-4821-a019-b91823847122",
+            "link": "https://learn.microsoft.com/azure/azure-local/manage/azure-site-recovery"
+        },
+        {
+            "id": "08.01.03",
+            "category": "Backup and Disaster Recovery",
+            "subcategory": "Stretch Clustering",
+            "text": "Stretch clustering synchronous replication satisfies network latency requirements (sub-5ms RTT)",
+            "description": "For multi-site stretch clusters with synchronous Storage Replica, verify round-trip network latency between sites remains consistently below 5 milliseconds with sufficient dedicated bandwidth for replication.",
+            "severity": "High",
+            "waf": "Reliability",
+            "service": "Azure Local",
+            "guid": "07.01.01-be918234-5918-4821-b019-c91823847123",
+            "link": "https://learn.microsoft.com/azure/azure-local/concepts/stretch-clusters"
+        },
+        {
+            "id": "08.01.04",
+            "category": "Backup and Disaster Recovery",
+            "subcategory": "Stretch Clustering",
+            "text": "Replication networks are isolated from management and VM traffic in stretch cluster designs",
+            "description": "Storage Replica traffic requires dedicated, redundant network interfaces and isolated VLANs separate from cluster management, tenant compute, and local Storage Spaces Direct traffic.",
+            "severity": "High",
+            "waf": "Reliability",
+            "service": "Azure Local",
+            "guid": "07.01.02-ce918234-6918-4821-c019-d91823847124",
+            "link": "https://learn.microsoft.com/azure/azure-local/concepts/stretch-clusters#network-recommendations"
+        },
+        {
+            "id": "08.01.05",
+            "category": "Backup and Disaster Recovery",
+            "subcategory": "Stretch Clustering",
+            "text": "Quorum witness is located in a neutral third site (Cloud Witness in Azure)",
+            "description": "When deploying a 2-site stretch cluster, the quorum witness must reside in a separate independent third site (such as Azure Cloud Witness) to ensure automatic, split-brain-free failover when either physical facility goes down.",
+            "severity": "High",
+            "waf": "Reliability",
+            "service": "Azure Local",
+            "guid": "07.02.03-de918234-7918-4821-d019-e91823847125",
+            "link": "https://learn.microsoft.com/azure/azure-local/concepts/stretch-clusters#witness"
+        },
+        {
+            "id": "08.01.06",
+            "category": "Backup and Disaster Recovery",
+            "subcategory": "Disaster Recovery Planning",
+            "text": "Site recovery and manual failover procedures are documented and validated",
+            "description": "Document an operational runbook detailing steps for catastrophic site failure, manual quorum override ('Start-ClusterNode -FixQuorum'), forced volume mount, and subsequent recovery synchronization.",
+            "severity": "High",
+            "waf": "Operations",
+            "service": "Azure Local",
+            "guid": "07.02.01-ee918234-8918-4821-e019-f91823847126",
+            "link": "https://learn.microsoft.com/azure/azure-local/manage/failover-stretch-cluster"
+        },
+        {
+            "id": "08.01.07",
+            "category": "Backup and Disaster Recovery",
+            "subcategory": "Stretch Clustering",
+            "text": "Storage backing log volumes is equal to or faster than data volumes in stretch clusters",
+            "description": "Storage Replica log volumes record write operations synchronously before sending acknowledgements. Place log volumes on high-speed NVMe or fast flash storage to prevent log write bottlenecks from slowing down application I/O.",
+            "severity": "High",
+            "waf": "Performance",
+            "service": "Azure Local",
+            "guid": "49eed20c-2922-4b1b-870b-ae1fb4208433",
+            "link": "https://learn.microsoft.com/azure/azure-local/concepts/stretch-clusters#storage-recommendations"
+        },
+        {
+            "id": "08.01.08",
+            "category": "Backup and Disaster Recovery",
+            "subcategory": "Business Continuity",
+            "text": "Recovery Point Objective (RPO) and Recovery Time Objective (RTO) are documented and verified",
+            "description": "Establish formal RPO and RTO SLA metrics for each application tier hosted on Azure Local. Match synchronous replication (RPO=0) to tier-1 systems and asynchronous replication or backup snapshots to tier-2/3 systems.",
+            "severity": "Medium",
+            "waf": "Reliability",
+            "service": "Azure Local",
+            "guid": "1a7f95f0-f3a6-4112-bc10-289113f81946",
+            "link": "https://learn.microsoft.com/azure/architecture/framework/resiliency/business-metrics"
+        },
+        {
+            "id": "09.01.01",
+            "category": "Cost Optimization and Licensing",
+            "subcategory": "Azure Hybrid Benefit",
+            "text": "Azure Hybrid Benefit (AHB) for Windows Server is applied to waive host service fees",
+            "description": "Apply Azure Hybrid Benefit for Windows Server Datacenter with active Software Assurance (SA). AHB waives the monthly Azure Local host fee per physical core and grants rights to run unlimited Windows Server guest VMs on the cluster.",
+            "severity": "High",
+            "waf": "Cost",
+            "service": "Azure Local",
+            "guid": "06.01.05-fe918234-9918-4821-f019-091823847127",
+            "link": "https://learn.microsoft.com/azure/azure-local/concepts/azure-hybrid-benefit"
+        },
+        {
+            "id": "09.01.02",
+            "category": "Cost Optimization and Licensing",
+            "subcategory": "Azure Subscription",
+            "text": "Cluster registration is associated with the appropriate enterprise subscription and tags",
+            "description": "Ensure the Azure Local cluster is registered under the correct billing subscription and enriched with mandatory enterprise governance tags (CostCenter, Environment, Owner, Application, Location) for transparent cost allocation.",
+            "severity": "Medium",
+            "waf": "Cost",
+            "service": "Azure Local",
+            "guid": "0f918234-0918-4821-0019-191823847128",
+            "link": "https://learn.microsoft.com/azure/azure-local/deploy/register-with-azure",
+            "graph": "resources | where type =~ 'microsoft.azurestackhci/clusters' | project id, name, subscriptionId, tags"
+        },
+        {
+            "id": "09.01.03",
+            "category": "Cost Optimization and Licensing",
+            "subcategory": "Resource Efficiency",
+            "text": "Virtual machine resource allocation is monitored and right-sized to prevent CPU/RAM waste",
+            "description": "Regularly audit VM CPU and memory consumption using Azure Local Insights. Right-size over-provisioned VMs and avoid unmonitored dynamic memory ballooning on mission-critical database hosts.",
+            "severity": "Medium",
+            "waf": "Cost",
+            "service": "Azure Local",
+            "guid": "1f918234-1918-4821-1019-291823847129",
+            "link": "https://learn.microsoft.com/azure/azure-local/concepts/plan-capacity"
+        },
+        {
+            "id": "09.01.04",
+            "category": "Cost Optimization and Licensing",
+            "subcategory": "Storage Deduplication",
+            "text": "Data deduplication and compression are evaluated on secondary and archive volumes",
+            "description": "Enable ReFS deduplication and compression on general-purpose file servers, VDI user profile disks, or backup repository volumes to maximize storage efficiency and lower raw storage footprint costs.",
+            "severity": "Low",
+            "waf": "Cost",
+            "service": "Storage Spaces Direct",
+            "guid": "07.02.04-2f918234-2918-4821-2019-39182384712a",
+            "link": "https://learn.microsoft.com/windows-server/storage/data-deduplication/overview"
+        },
+        {
+            "id": "09.01.05",
+            "category": "Cost Optimization and Licensing",
+            "subcategory": "Memory Governance",
+            "text": "Static memory sizing is configured for transactional databases to avoid overcommit penalties",
+            "description": "Avoid configuring Dynamic Memory on latency-sensitive transactional databases (like SQL Server or Oracle). Static memory assignment guarantees predictable memory paging performance and eliminates hypervisor ballooning overhead.",
+            "severity": "Medium",
+            "waf": "Performance",
+            "service": "Azure Local",
+            "guid": "0b44fac1-ebc8-4300-90a1-a1294838c64b",
+            "link": "https://learn.microsoft.com/azure/azure-local/manage/sql-server#memory-configuration"
+        }
+    ],
+    "categories": [
+        {
+            "name": "Hardware and Architecture"
+        },
+        {
+            "name": "Storage and S2D"
+        },
+        {
+            "name": "Networking and Network ATC"
+        },
+        {
+            "name": "Hybrid Management and Azure Arc"
+        },
+        {
+            "name": "Security and Governance"
+        },
+        {
+            "name": "Operations and Lifecycle Management"
+        },
+        {
+            "name": "Workloads and Edge Services"
+        },
+        {
+            "name": "Backup and Disaster Recovery"
+        },
+        {
+            "name": "Cost Optimization and Licensing"
+        }
+    ],
+    "waf": [
+        {
+            "name": "Reliability"
+        },
+        {
+            "name": "Security"
+        },
+        {
+            "name": "Performance"
+        },
+        {
+            "name": "Operations"
+        },
+        {
+            "name": "Cost"
+        }
+    ],
+    "status": [
+        {
+            "name": "Not verified",
+            "description": "This check has not been looked at yet"
+        },
+        {
+            "name": "Open",
+            "description": "There is an action item associated to this check"
+        },
+        {
+            "name": "Fulfilled",
+            "description": "This check has been verified, and there are no further action items associated to it"
+        },
+        {
+            "name": "Not required",
+            "description": "Recommendation understood, but not needed by current requirements"
+        },
+        {
+            "name": "N/A",
+            "description": "Not applicable for current design"
+        }
+    ],
+    "severities": [
+        {
+            "name": "High"
+        },
+        {
+            "name": "Medium"
+        },
+        {
+            "name": "Low"
+        }
+    ],
+    "yesno": [
+        {
+            "name": "Yes"
+        },
+        {
+            "name": "No"
+        }
+    ],
+    "metadata": {
+        "name": "Azure Local (HCI) Review",
+        "state": "GA",
+        "waf": "all",
+        "timestamp": "October 01, 2026",
+        "description": "Comprehensive review checklist for Azure Local (formerly Azure Stack HCI) deployments, aligning with Microsoft Well-Architected Framework and production engineering standards."
+    }
+}
